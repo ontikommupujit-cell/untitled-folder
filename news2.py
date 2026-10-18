@@ -42,3 +42,16 @@ def main():
         if not headline:
             print('Please enter a valid headline.')
             continue
+        try:
+            preds = ask_hf(headline)
+            if isinstance(preds, list) and preds and "label" in preds[0]:
+                show(headline, preds)
+            else:
+                print("Oops! Unexpected reply:", preds)
+        except Exception as e:
+            print("\n⚠️ Oops! Something went wrong.")
+            print("Reason:", e)
+            print("Tip: Check HF_API_KEY + internet.\n")
+if __name__ == "__main__":
+
+     main() 
