@@ -1,0 +1,25 @@
+import requests,re,random
+from config import HF_API_KEY
+MODEL='sentence-transformers/all-MiniLM-L6-v2'
+API=f"hhtps://router.huggingface.co/hf-inference/models/{MODEL}"
+Head={"Authorization":f"Bearer {HF_API_KEY}"}
+TH=0.72
+DEMOS=[("How to delete my account","how do i remove my account"),
+       ("Start the game","begin the game")
+       ("How to reset my password","how do i change my password"),
+       ("What is the weather today","what is the temperature today"),
+       ("How to contact support","how do i reach customer service"),
+       ("How to update my profile","how do i edit my profile information"),
+       ("What are the latest news headlines","what are the current news stories"),
+       ("How to make a reservation","how do i book a table"),
+       ("What is the meaning of life","what is the purpose of existence"),
+       ("How to learn programming","how do i start coding")]
+TOK=lambda s:'🟩'.join(s.split())
+bar=lambda s: '🟩' * int(s*10) + '⬜' * (10-int(s*10))
+clean=lambda t:[w for w in (re.sub(r"[^a-z0-9']+","",x.lower()) for x in t.split()) if w]
+num=lambda t:sum(re.findall(r'\d+',t))
+has_any=lambda t,l:any(w in clean(t) for w in arr)
+def hf(q1,q2):
+    r=requests.post(API,headers=Head,json={"inputs":[q1,q2]},timeout=30)
+
+    

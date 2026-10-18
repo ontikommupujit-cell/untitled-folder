@@ -2,10 +2,10 @@ import requests
 from config import HF_API_KEY
 MODEL_ID = "facebook/bart-large-mnli"
 API_URL = f"https://router.huggingface.co/hf-inference/models/{MODEL_ID}"
-Headers= {"Authorization": f"Bearer {HF_API_KEY}"}
-Topics=["sports","Technology","Politics","Health","Business"]
+HEADERS= {"Authorization": f"Bearer {HF_API_KEY}"}
+TOPICS=["sports","Technology","Politics","Health","Business"]
 def ask_hf(headline:str):
-    payload={"inputs":headline,"parameters":{"candidate_labels":Topics}}
+    payload={"inputs":headline,"parameters":{"candidate_labels":TOPICS}}
     r=requests.post(API_URL,headers=HEADERS, json=payload,timeout=30)
     if not r.ok:
         raise RuntimeError(f"API error: {r.status_code} {r.text}")
